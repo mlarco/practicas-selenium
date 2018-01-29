@@ -20,38 +20,38 @@ https://www.guru99.com/all-about-excel-in-selenium-poi-jxl.html
 
  */
 
-package marie;
+
 
 import static org.testng.AssertJUnit.assertEquals;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import readWriteExcel.ExcelReader;
+
 public class ValidarLogInConUtilYExcel {
 
 	public static void main(String[] args) throws InterruptedException {
-		ChromeDriver driver = misael.Utils.initialize();
-
+		ChromeDriver driver = Utils.initialize();
 		// explicit wait me hace esperar 20 de cada elemento
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		//Create an object of ExcelReader class
+	    ExcelReader objExcelFile = new ExcelReader();
+	    //Prepare the path of excel file
+	    String filePath = System.getProperty("user.dir")+"\\src\\readWriteExcel";
+	    //Call read file method of the class to read data
+	    try {
+	    	//RECORRO LA MATRIZ
+	    	objExcelFile.readExcel(filePath,"LogInCases.xlsx","Sheet1");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		String uid = "mngr98967";
-		driver.findElement(By.name("uid")).clear();
-		driver.findElement(By.name("uid")).sendKeys(uid);
-
-		String password = "ynytehY";
-		driver.findElement(By.name("password")).clear();
-		driver.findElement(By.name("password")).sendKeys(password);
-
-		driver.findElement(By.name("btnLogin")).click();
-
-		// Verify that the title is equal to a Welcome title and print it to screen
-		String title = driver.getTitle();
-		assertEquals("Guru99 Bank Manager HomePage", title);
-		System.out.println("* * * Login successful * * *");
-		System.out.println("Title of the HomePage: " + title);
 
 		driver.close();
 	}
